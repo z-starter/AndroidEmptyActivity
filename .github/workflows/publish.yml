@@ -35,7 +35,10 @@ jobs:
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          bodyFile: "body.md"
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
           name: Release ${{ env.TAG }}
           token: ${{ env.PASS }}
           tag: ${{ env.TAG }}
