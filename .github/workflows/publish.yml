@@ -36,11 +36,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           tag: ${{ env.TAG_NAME }}
-          body: Changes in this Release
-          # body: |
-          #   Changes in this Release
-          #   - First Change
-          #   - Second Change
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
         run: |
           gh release create "$tag" --title "${tag#v}" --notes "$body"
 
