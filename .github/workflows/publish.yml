@@ -22,35 +22,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Setup Java
-      #   uses: actions/setup-java@v4
-      #   with:
-      #     java-version: 17
-      #     distribution: "temurin"
-      #
-      # - name: Build project
-      #   run: |
-      #     ./gradlew Build
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: "temurin"
+
+      - name: Build project
+        run: |
+          ./gradlew Build
 
       - name: Create release
         env:
           GH_TOKEN: ${{ github.token }}
-          tag: ${{ env.TAG_NAME }}
-          body: |
+          release_tag: ${{ env.TAG_NAME }}
+          release_title: Release ${{ env.TAG_NAME#v }}
+          release_body: |
             Changes in this Release
             - First Change
             - Second Change
         run: |
-          gh release create "$tag" --title "${tag#v}" --notes "$body"
+          gh release create "$release_tag" --title "$release_title" --notes "$release_body"
 
       - name: Upload release assets
         env:
           GH_TOKEN: ${{ github.token }}
-          tag: ${{ env.TAG_NAME }}
-          asset_path: ./gradle.properties
-          asset_name: zero.apk
+          release_tag: ${{ env.TAG_NAME }}
+          asset_path: app/build/outputs/apk/debug/app-debug.apk
+          asset_name: app-${{ env.TAG_NAME }}.apk
         run: |
-          gh release upload "$tag" "$asset_path#$asset_name"
+          gh release upload "$release_tag" "$asset_path#$asset_name"
 
       # - name: Create release
       #   id: create_release
