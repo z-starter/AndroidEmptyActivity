@@ -42,7 +42,7 @@ jobs:
             - First Change
             - Second Change
         run: |
-          gh release create "$tag" "$files" \
+          gh release create "$tag" \
               --repo="Release $GITHUB_REPOSITORY" \
               --title="${tag#v}" \
               --notes="$body"
