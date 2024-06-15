@@ -36,7 +36,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           release_tag: ${{ env.TAG_NAME }}
-          release_title: Release ${{ env.TAG_NAME#v }}
+          release_title: Release ${{ env.TAG_NAME }}
           release_body: |
             Changes in this Release
             - First Change
