@@ -2,13 +2,13 @@ name: Publish CI
 
 on:
   push:
-    branches: ["zero"]
-  pull_request:
-    branches: ["zero"]
+    tags:
+      - "v*"
 
 env:
   USER: ${{ github.actor }}
   PASS: ${{ secrets.GITHUB_TOKEN }}
+  TAG: ${{ github.ref }}
 
 jobs:
   build:
@@ -24,6 +24,20 @@ jobs:
           distribution: "temurin"
       - run: |
           ./gradlew build
+      - name: Create Release
+        id: create_release
+        uses: igorrs/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ env.PASS }}
+        with:
+          tag_name: ${{ env.TAG }}
+          release_name: Release ${{ env.TAG }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
       # - name: Upload Apk file
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -33,5 +47,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: app
-          path: app/build/outputs/apk/debug
+          path: app/build/outputs/apk/debug/app-debug.apk
           repo-token: ${{ env.PASS }}
+          content-type: application/apk
