@@ -53,8 +53,8 @@ jobs:
           asset_path: ./gradle.properties
           asset_name: zero.apk
           body: Changes in this Release
-          run: |
-            gh release upload "$tag" "$asset_path#$asset_name"
+        run: |
+          gh release upload "$tag" "$asset_path#$asset_name"
 
       # - name: Create release
       #   id: create_release
