@@ -36,11 +36,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ env.PASS }}
           tag: ${{ env.TAG_NAME }}
+          file_path: app/build/outputs/apk/debug/app-debug.apk
+          file_name: app-${{ env.TAG_NAME }}.apk
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
         run: |
           gh release create "$tag" \
-              --repo="$GITHUB_REPOSITORY" \
-              --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
-              --generate-notes
+              --repo="Release $GITHUB_REPOSITORY" \
+              --title="${tag#v}" \
+              --notes="$body" \
+              "$file_path#$file_name"
 
       # - name: Create release
       #   id: create_release
