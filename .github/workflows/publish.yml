@@ -37,15 +37,14 @@ jobs:
           GITHUB_TOKEN: ${{ env.PASS }}
           tag: ${{ env.TAG_NAME }}
           files: ./gradle.properties
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+          body: Changes in this Release
+          #
+          # body: |
+          #   Changes in this Release
+          #   - First Change
+          #   - Second Change
         run: |
-          gh release create "$tag" \
-              --repo="Release $GITHUB_REPOSITORY" \
-              --title="${tag#v}" \
-              --notes="$body"
+          gh release create "$tag" --title "${tag#v}" --notes "$body"
       # - name: Create release
       #   id: create_release
       #   uses: igorrs/create-release@v1
