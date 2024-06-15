@@ -42,7 +42,7 @@ jobs:
           #   - First Change
           #   - Second Change
         run: |
-          gh release create "$tag" "$files" --title "${tag#v}" --notes "$body"
+          gh release create "$tag" --title "${tag#v}" --notes "$body"
 
       - name: Upload release assets
         env:
