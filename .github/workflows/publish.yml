@@ -22,33 +22,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: "temurin"
-
-      - name: Build project
-        run: |
-          ./gradlew Build
+      # - name: Setup Java
+      #   uses: actions/setup-java@v4
+      #   with:
+      #     java-version: 17
+      #     distribution: "temurin"
+      #
+      # - name: Build project
+      #   run: |
+      #     ./gradlew Build
 
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ env.PASS }}
           tag: ${{ env.TAG_NAME }}
-          file_path: app/build/outputs/apk/debug/app-debug.apk
-          file_name: app-${{ env.TAG_NAME }}.apk
+          files: ./gradle.properties
           body: |
             Changes in this Release
             - First Change
             - Second Change
         run: |
-          gh release create "$tag" \
+          gh release create "$tag" "$files" \
               --repo="Release $GITHUB_REPOSITORY" \
               --title="${tag#v}" \
-              --notes="$body" \
-              "$file_path#$file_name"
-
+              --notes="$body"
       # - name: Create release
       #   id: create_release
       #   uses: igorrs/create-release@v1
